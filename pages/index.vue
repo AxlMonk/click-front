@@ -1,42 +1,41 @@
 <script setup>
 
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+  import { ref } from 'vue';
+  import { useRouter } from 'vue-router';
 
-const selectedFile = ref(null);
-const router = useRouter();
-const URL = 'http://localhost:3001/catalog/file';
+  const selectedFile = ref(null);
+  const router = useRouter();
+  const URL = 'http://localhost:3001/catalog/file';
 
-const handleFileChange = (event) => {
-  selectedFile.value = event.target.files[0]; 
-};
+  const handleFileChange = (event) => {
+    selectedFile.value = event.target.files[0]; 
+  };
 
-const uploadFile = async () => {
-  if (!selectedFile.value) {
-    alert('Пожалуйста, выберите файл для загрузки.');
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append('file', selectedFile.value);
-
-  try {
-    const response = await fetch(URL, { 
-      method: 'POST',
-      body: formData,
-    });
-    router.push('/products');
-    if (response.status === 201) {
-      alert('Файл успешно загружен! Перейдите на страницу каталога.')
-    } else {
-      alert('Ошибка загрузки файла.');
+  const uploadFile = async () => {
+    if (!selectedFile.value) {
+      alert('Пожалуйста, выберите файл для загрузки.');
+      return;
     }
-  } catch (error) {
-    console.error('Ошибка при загрузке:', error);
-    alert('Ошибка при загрузке файла.');
-  }
-};
 
+    const formData = new FormData();
+    formData.append('file', selectedFile.value);
+
+    try {
+      const response = await fetch(URL, { 
+        method: 'POST',
+        body: formData,
+      });
+      router.push('/products');
+      if (response.status === 201) {
+        alert('Файл успешно загружен! Перейдите на страницу каталога.')
+      } else {
+        alert('Ошибка загрузки файла.');
+      }
+    } catch (error) {
+      console.error('Ошибка при загрузке:', error);
+      alert('Ошибка при загрузке файла.');
+    }
+  };
 </script>
 
 <template>
